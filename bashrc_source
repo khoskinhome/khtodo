@@ -1,0 +1,17 @@
+#!/bin/bash
+
+# this file should be included by the .bashrc
+
+export KHTODOBASE=$HOME/UbuntuOne/khtodo
+
+# get the path fixed up first
+export PATH=$KHTODOBASE/bin:$PATH
+
+
+# where all the todo data files are kept :-
+export KHTODODATA=$KHTODOBASE/todo
+
+
+alias cdkhtodo='cd $KHTODODATA'
+
+
