@@ -69,6 +69,11 @@ has found_tags_in_tokens => ( is=>'rw', isa=>'Int' );
 #
 has parse_error => ( is=>'rw', isa=>'Str');
 
+# need to keep track of where todo-items came from and this is :-
+has filename   => ( is=>'rw', isa=>'Str');
+has filelineno => ( is=>'rw', isa=> 'Int');
+
+
 __PACKAGE__->meta->make_immutable;
 
 =item parse_error_concat
@@ -90,6 +95,10 @@ sub parse_error_concat {
 sub isTodo {
     my ($self) = @_;
 
+    # it isn't a Todo item if all the tokens in the line 
+    # are recognised as the "semi;colon-tags"
+    # And it isn't a todo item if it is "information" as specified by an
+    # info; tag.
     if ( $self->found_tags_in_tokens == $self->line_tokens
         || $self->isInformation 
     ) {
@@ -112,7 +121,7 @@ sub parseline {
     # Preparing the line. 
     ########################################################
 
-    # strip of the comments section off the line :-
+    # strip off the comments section of the line :-
     my ( $line ) = $self->line =~ m/(.*?)(#|$)/;
 
     # split line into tokens ( "split" gets an empty string to start ) 
