@@ -1,0 +1,10 @@
+Architecture 
+############
+
+
+The parsing of the todo files happens by :-
+
+    1) finding files under a directory, seeing if they start with ;todo;
+    2) parsing one file one line at a time.
+    3) the first line of a todo file is completely ignored apart from ;todo; saying that it is a todo file
+    4) 
