@@ -4,8 +4,7 @@
 
 # what needs doing to kbtodo ! 
 
-rename khtodo to kbtodo
-
+rename khtodo to kbtodo. also consider "doit", "duit", "dit" , "kbt" , "todit" ,"tuit"
 
 ;proj;kbtodo
 
