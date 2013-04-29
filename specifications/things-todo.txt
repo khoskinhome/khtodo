@@ -1,0 +1,130 @@
+;todo;
+
+@;home:kbtodo
+
+# what needs doing to kbtodo ! 
+
+rename khtodo to kbtodo
+
+
+;proj;kbtodo
+
+
+;proj;kbtodo-dispatcher-script
+
+    write the main dispatcher script "kbtodo"
+
+    # all of these kbtodo <action> .. blah commands will most like use the --cli options below.
+
+    design then write "kbtodo imap pull --cli-options"
+    design then write "kbtodo imap push --cli-options"
+
+    design then write "kbtodo git pull --cli-options"
+    design then write "kbtodo git push --cli-options"
+
+    design then write "kbtodo edit --cli-options" . runs editor using the configured editor in ~/.kbtodo 
+    design then write "kbtodo vim" . like kbtodo edit but runs vim
+    design then write "kbtodo emacs" . like kbtodo edit but runs emacs
+    design then write "kbtodo kate" . like kbtodo edit but runs kate
+
+    design then write "kbtodo what --cli-options" .  answers the "what should I do NOW ?" most like with some filters / sort order --cli params shown below..
+    # "kbtodo print" / "kbtodo out" could be synonyms for "kbtodo what"
+
+    design then write "kbtodo list --cli-options" . lists all the different tags attached with todoitems. will not list GUIDs, that would be SILLY!
+
+    design then write "kbtodo rebase context". big bad and dangerous. rearranges files into into files grouped by context. aiming for as close as possible to 1 context per file.
+
+    design then write "kbtodo rebase project". big bad and dangerous. rearranges files into files grouped by project. aiming for as close as possible to 1 project name per file. 
+
+    design then write "kbtodo rebase add-guid" . adds a guid to every task.
+
+    design then write "kbtodo add" . adds an item . if "use guids" setting is on in config, it will have a guid added.
+    design then write "kbtodo delete <guid> --cli-options"
+    design then write "kbtodo done <guid> --cli-options" . puts done flag on todo-item with the specific guid.
+
+    design then write "kbtodo clear-done --cli-options"  # gets rid of "done" todo-items entries.
+
+
+    ;info;
+
+        --cli-options to kbtodo commands , not all of them apply to all commands :-
+
+        filter params ( for all actions ) :-
+            -pX <priority> (only show/edit/process todos with a priority the same as or higher )
+            -cX <complexity> (only show/edit/process todos with a complexity the same as or higher ) 
+            -m/--mtg
+            -n/--nouns ( filter on all the hashref based noun lists. context, name , person, place, project etc.. ) 
+            --nm/--names
+            -p/--persons
+            -c/--contexts <context>
+            --plc/--places
+            --prj/--projects
+            --prjdep/--project-depend/--project-dependencies
+            -d/--done
+
+            -w/--waiting
+
+            --sb/--start-before/--start-date-before <iso8601>
+            --sa/--start-after/--start-date-after <iso8601>
+            --eb/--end-bef/--end-before/--end-date-before <iso8601>
+            --ea/--end/--end-date   <iso8601>
+
+        sort-order params :-
+            --sort attribute-names:colon-separated
+
+    ;info;--
+
+;proj-end;kbtodo-dispatcher-script
+
+####################################################
+
+;info; some info on the config file that will tell the "kbtodo" script what to do.
+
+vi ~/.kbtodo ( config file ) > 
+
+    KHTODODATA=~/kbtodo-data ( the default )  where all the data is stored.
+
+
+    file editor config . path to editor, plus any CLI options it needs to open a list of files.
+
+    IMAP-connection-details
+    IMAP password can be put in the file, or entered manually on IMAP operations.
+
+    git-repo-details 
+    git-repo password can be put in the file, or entered manually on GIT operations, and ssh keys should be supported too, I guess those should be in the regular ~/.ssh place.
+
+
+    defaults for "new added items" :-
+        context of new added items
+        priority
+        complexity
+        setting for whether they are GUID-ed
+    
+;info;--
+
+######################################################
+
+;project;kbtodo-docs
+
+    docs . Semi colons really important, they can generate parsing errors . colons not so important. parsing errors not brought up by colons.
+
+    docs . explanation of what quotes and brackets will do, and how their use should be used carefully and considerately.
+
+
+;project-end;kbtodo-docs
+
+######################################################
+
+
+#install and use process. 
+#########################
+sudo apt-get install kbtodo
+
+
+
+    in the KHTODO::Item parsing code, make a warning on a XXXX-end;removethis where it couldn't remove something. It is a WARNING not an ERROR.
+
+
+2p; add guid field to KHTODO::State.
+
+look at bitbucket for free private repositories.

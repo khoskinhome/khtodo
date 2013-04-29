@@ -1,0 +1,374 @@
+;TODO;  or todo; put at the top of a TODO file. if it doesn't have this , it isn't a TODO file ( and will not be searchable by khtodo-tools )
+################################################################################
+
+TODO time spent / task DONE mark up . This is TODO !!! oh what recursive irony.
+
+
+################################################################################
+# Conventions in this document #
+################################
+
+This is a line explaining something in this document.
+
+>   this is an item or a line in a todo-file. The leading > is not needed in a real file.
+
+
+#########################
+## TODO file format !!! #
+#########################
+The format of a TODO file. flexible . machine parsable and searchable. human readable and writable. automated tool writable. loosely based on (well the bit I read of it ) GTD by David Allen.  http://www.amazon.co.uk/Getting-Things-Done-Stress-free-Productivity/dp/0749922648/ref=sr_1_1?ie=UTF8&qid=1364917990&sr=8-1
+
+used with git , for revision history.
+aimed at linux users, windows users need too much hand holding, but I guess some of them *might* geddit (but not many).
+
+all words and tags are case-insensitive. ( case sensitivity just pees me right off )
+
+tags is an overloaded term in the following spec. most of the time it is refering to the ::todo-special-meaning-tag:: and in the case of ::tags:: it is also the subject and the object of the statement. So beware !!!
+
+As already mentioned you need a :-
+
+>;todo; 
+
+at the top of a file to make it a todo file, and parsed and used by khtodo-tools
+ 
+#################################################################################
+## What's a TODO-item ? and what about ## ( hashed lines ) ? #
+##############################################################
+todo items are just plain text 1 item per line like so :-
+
+> this is a todo item ! do it NOW !
+
+hashed lines are comments and not todo items.
+
+lines with just white space aren't todo items. How can you do nothing ? zen meditation perhaps ? out of scope for this stuff.
+
+everything after a # on a line is ignored. it is just a comment , a-la-perl, bash script etc....
+
+lines with just todo;tags on them and no other words are not todo items.
+
+#################################################################################
+# Line Based Format #
+#####################
+
+khtodo file format and current perl implementation is a LINE based format.
+What does that mean ?
+
+    (1) all tags and tag operations no matter where they are on a line apply to ALL of that line. It doesn't matter if they are at the beginning or end of the line. 
+    (2) newline, carriage-return have the meaning of starting :-
+        (2a) New todo context
+        (2b) New todo tag parsing context.
+
+    (3) although tags apply to all the line, the tokens in the line will be processed in a left to right order and will in certain cases end up with different results depending on what tag you put first. This will almost certainly involve using the different syntaxes of the same basic tag. This multi-same-tag-on-one-line will need explaining below.
+
+    (4) quotation marks are completely ignored, lines are split up on white space, completely caring less about quote marks.
+
+The implications of this will become clearer below.
+
+# So the take-aways from this are  TODO !!!!
+
+
+#################################################################################
+## Quoting - NONE ! #
+#####################
+
+no use of quoting with "" or '' , hyphenation to glue separate words together into same concept.
+Quoting would make the perl tools I intend to write too fructing complex.
+a-z , A-Z , hyphens, underscores and numbers just make it soooo much easier.
+so a person's name would be karl-khaos-hoskin and not karl khaos hoskin.
+the last would be 3 different people, and one of any of those is quite enough.
+
+#################################################################################
+## lists associated with the same tag are : (colon) separated. #
+################################################################
+
+i.e. 
+
+>   ;context;a-context:b-ct:123-ct
+
+would mean that 3 contexts are now in the global state (as it in applies to all following lines )
+and they would be :-
+    a-context
+    b-ct
+    123-ct
+##################################################################################
+# Multiline Vs SingleLine tags #
+################################
+
+tags come in 2 varieties :-
+    (1) Multiline  ;tag-name;blah-blah ( that affect the global-state . a term you will hear a lot of )
+    (2) Singleline tag-name;blah-for-one-line-only
+
+
+This is a multiline applying tag :- 
+
+>   ;start;20130415
+>        this todo item has a start date of 15th April 2013
+>        this todo item also has a 'start date' of 15th April 2013
+>
+>   ;start;--   # empties the start_date's global-state 
+>
+>   this todo item doesn't have a 'start date' of any sort
+
+This is a singleline applying tag :-
+
+>   this todo item has an end-date;2015-05-07 of May 7th 2015
+>   this todo item doesn't have an 'end date' of any sort.
+
+Another multiline example :- 
+
+>   ;pers;someone:someone-else:another-person
+>
+>       now all these todo lines have the global 'persons' of someone and someone-else associated with them.
+>
+>   ;pers;-- # will clear ALL the global ;persons;
+
+However with the 'persons', 'places', 'contexts', 'projects', 'project-dependencies', 'names', you would sometimes want to just clear one of the list of tags. i.e. 
+
+>   ;pers;someone:another-pers:third-man:fourth-lady
+>
+>       this todo item has 4 people associated with it 'someone', 'another-pers', 'third-man' and 'fourth-lady'
+>
+>   ;pers-end;third-man:someone  # remove these 2 from the global multiline state.
+>
+>   this todo item has 2 people associated with it 'another-pers' and 'fourth-lady'
+>
+>   this todo item has 3 pers;mr-bean associated with it. 'another-pers', 'fourth-lady' and 'mr-bean'
+>
+>   and this todo item has 2 people associated with it again . 'another-pers' and 'fourth-lady'
+
+
+please note the -- syntax i.e. ;pers;-- is infact setting the default , which is an empty list ( in this case, of people ) 
+
+##################################################################################
+# Datetimes #
+#############
+ 
+start-date . When should we start doing this stuff by ?
+
+>   ;start-by;iso-8601-date  # a nice multiline start date
+
+>   sby;20130804 a single line start date
+
+'start', 'start-by', 'sby' and 'start-date' are all synonyms.
+
+################################################################################
+
+end-date . When should it be done by ?
+
+>   ;end-by;iso-8601 date .. everything following this line has this end date  
+
+'end', 'end-by', 'eby' and 'end-date' are all synonyms.
+
+>   ;eby;--  this line now doesn't have a global eby date.
+
+>   eby;20150709 this end date applies to this line only
+
+################################################################################
+done
+
+################################################################################
+waiting 
+
+
+##################################################################################
+# Noun type things , stored in hashrefs #
+#########################################
+
+there are 6 types of these :-
+
+    persons , & ( who ? ) 
+    projects
+    project_dependencies
+    names
+    contexts , @  ( where am I ? ) 
+    places  ( where ? )
+
+
+They all behave pretty much the same as far as the todo-file markup is concerned.
+The differences between them will happen in the khtodo-tools that parse the files.
+
+They all have one special property compared with the other tags , is that you can remove one of their list of items one at a time from the ;global; variant of the tag. i.e. 
+
+>   ;persons;global-man:global-lady;global-kid
+>
+>       this todo item has 3 people associated with it global-man global-lady and global-kid
+>
+>   ;persons-end;global-lady
+>
+>       this todo item has 2 people associated with it global-man and global-kid
+>
+>   ;persons;--   this todo item has no people associated with it.
+>
+>   this todo item has no people associated with it.
+
+so only the "noun-hashref-list-of-things" tags support the ;XXXX-end;removeSomething syntax.
+
+all tags support the ;XXXX;-- clear the global-state syntax.
+
+############
+How global and line local noun-y tags work together.
+############
+basically they are "additive" i.e. :-
+
+>   ;pers;roger:mike:karl:steve
+>
+>   this is a todo item pers;elvis is going to help the other 4 people
+>
+>   ;pers;--
+>   and no one is helping out on this todo-item
+
+
+project_dependencies only become important at the khtodo-tool level. they make todo items dependent on another project. This will be dealt with latter.
+
+#############
+context; @;
+
+a special mention of what "context" means as in David Allen's GTD . where you are , home , work , down the shops, in outer mongolia etc ....
+
+i.e. some todo items are easier and really should only be done in certain contexts. i.e. you can really only clean your house when you're at home. Read his book for more details.
+
+
+###############################################################################
+# priority and complexity #
+###########################
+
+priority . how important is this stuff ? 
+complexity . how hard is this stuff ? 
+
+They both have a default of '4', and all todo-items are getting tagged at level 4 whether you say so or not.
+
+>   ;1p; the front integer is 1 to 5 . 1 being very important. 5 being meh! sometime before I die , maybe. 
+
+>   3p; would be the single line tag for a priority of 3 ( med ) 
+
+>   ;1p; would be the multi line tag for a priority of 1 ( do it NOW !)
+
+>   ;5p; would be the multi line tag for a priority of 5 ( do it sometime in the next 100 years ) 
+
+>   3c; would be the single line tag for a complexity of 3 ( med ) 
+
+>   ;1c; would be the multi line tag for a complexity of 1 ( very hard : rocket science !)
+
+>   ;5c; would be the multi line tag for a complexity of 5 ( a five year dog could do it ) 
+
+
+clearing back to default the global priority / complexity state :-
+>   ;1p;-- ## infact ;1c;-- ;5p;-- would all default back to the setting of '4'
+
+The clearing of complexity or priority's global state probably needs thinking about. I really think the ;1p;-- is confusing and silly . But it is what currently works. You could always ;4p; and that would get the same result with less confusion.
+
+#################
+How Priority and Complexity line-local and global tags interact.
+#################
+
+if you set the line-local tag , then that will always override the global level i.e. 
+
+>   ;1p; # everything is REALLY important !
+>
+>       this is a very important item
+>       this is not that important 5p; because the local setting overrides the global.
+>   ;5p;-- # now the global priority is back to 4. yes silly I know. This needs thinking about.
+>   this todo item has the global prio of 4.
+
+##############
+
+I guess my definitions of the five priority levels are :-
+#######
+1p; need to do it NOW . as soon as practically possible. context dependent.
+2p; need to do it in the next day or so. no more than a week.
+3p; need to do it in the next week to month
+4p; need to do it in the next month to 6 months.
+5p; need to do it in the next 6 months to infinity ( if ever ) . More of a would like to do it sometime. 
+
+
+and I guess my definitons of the five complexity levels for me as a relatively mature adult are :-
+
+1c; Rocket science. May need to get expert help in and/or will take a long time/lot of effort
+2c; A skilled and or adaptable adult could do it. It will take time and talent. Probably measured in several days work.
+3c; A days or so-s work for a skilled adult. Some training in the subject area most likely necessary.
+4c; An hour or twos work for someone who can do it. Probably not overly mentally or physically taxing.
+5c; A well trained 12 year old could do it in 15 minutes. All reasonable adults should be able to do it.
+
+complexity is a combination of how much effort and expertise, which are subtly different. I guess these concepts could be separated. For now I'm going to leave them as complexity.
+
+
+###############################################################################
+# meetings #
+############
+
+all a meeting is , is a special type of todo item. It indicates that you have to be somewhere to meet someone. 
+
+meetings is just a boolean flag on a todo item. if you need a start-date , then use the start-date tag as shown above. 
+
+>   go to the meeting; with pers;steve start-date;20130509T1400 end-date;20130509T1500
+
+the above would be a meeting , with steve for 1 hour between 2pm and 3pm on 9th May 2013
+
+
+'m', 'mtg', and 'meeting' are all synonyms
+
+>   ;m;-- # will clear the global boolean meeting flag.
+
+
+#################################################################################
+# info or information ( both synonyms ) #
+#########################################
+
+This is a boolean tag that turns all what would have been todo items into information.
+
+you can also use #'s todo the same thing. On a single line basis they are easier.
+Also parsing an entirely #-ed out line is quicker in the program itself.
+
+the info tag works multi-line, and I guess that is it's most useful form .
+
+>   ;info;
+>       none of these lines are todo items
+>       this isn't a todo item either.
+>   ;info;-- # clears the global state
+>
+>   this entire line is an info; line , and not a todo item. But because it is made up of a lot of words it takes longer to parse use the hash instead !!
+>   
+
+
+###############################################################
+## Automated TOOLS !!
+
+## what-should-I-do (now | tomorrow | next-week | when-I-am-at | when-I-am-with-who )
+
+## what-are-my-meetings (now | today | tomorrow | next-week ... next year | next millenia )
+
+###############################################################
+####################################################
+## clearing any multiline global tag
+
+the ;XXXX-end;suminTOremove only works on the hashref-noun types.
+
+other global tags also need to be emptied. hashref-noun types also
+need to be cleared. 
+
+so there is :-
+
+;persons;--
+;start-date;--
+
+that entirely empties the global multiline tagging state.
+
+the -- syntax does different things depending on the tag. 
+( this has probably been mentioned above ) 
+
+
+
+
+
+
+
+
+
+##################################################################################
+# Interaction of Multi and Single line tags #
+
+the local line tags should override the global tags. The rules on how this happens varies for the tag type . 
+
+
+
+
