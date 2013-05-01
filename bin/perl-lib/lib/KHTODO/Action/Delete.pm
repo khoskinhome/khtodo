@@ -44,10 +44,12 @@ sub run {
 
     die "not yet implemented\n";
 
-};
+}
 
-sub get_secondary_actions {
-
+sub parse_argv { 
+    my ($self) = @_;
+    # this "shifts" more stuff off ARGV before cli-option parsing by the base class.
+    print STDERR "... parse_argv ".__PACKAGE__."... \n" if $main::DEBUG; 
 
 }
 

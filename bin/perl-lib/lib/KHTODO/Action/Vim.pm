@@ -11,12 +11,23 @@ Version 0.01
 
 =cut
 
+#TODO
+=pod
+
+    design then write "kbtodo vim" . like kbtodo edit but runs vim
+
+=cut 
+
+
 use Moose;
 
 extends 'KHTODO::Action';
 
 
 __PACKAGE__->meta->make_immutable;
+
+# TODO design then write "kbtodo vim" . like kbtodo edit but runs vim
+
 
 
 =head1 SYNOPSIS
@@ -39,15 +50,12 @@ called by the main action dispatcher.
 sub run {
     my ($self) = @_;
 
+    print STDERR "... run Vim ... \n" if $main::DEBUG;
+    print "Not yet Implemented !\n";
 
-
+#    $self->
 
 };
-
-sub get_secondary_actions {
-
-
-}
 
 
 sub BUILD {

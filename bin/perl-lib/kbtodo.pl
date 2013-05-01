@@ -4,6 +4,8 @@
 
 use strict;
 
+our $DEBUG = 1;
+
 ########### Parsing >>> ###########
 use KHTODO::Item;
 use KHTODO::State;
@@ -39,9 +41,11 @@ my $actions = {
     what         => "KHTODO::Action::What",
 };
 
-my $primary_action = shift @ARGV;
+my $primary_action = shift @ARGV || '';
 
-die "no actions ($primary_action) !" if  ! $primary_action;
+die "no actions ($primary_action) !\n" if  ! $primary_action;
+
+die "'$primary_action' not a valid action\n" if ! $actions->{$primary_action};
 
 my $lkup = $actions->{$primary_action};
 
@@ -50,6 +54,6 @@ my %do = (do=>"${lkup}::new" );
 do { 
     no strict 'refs';
     my $action = $do{do}($lkup);
-    $action->run(@ARGV);
+    $action->initiate();
 };
 

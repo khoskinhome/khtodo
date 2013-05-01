@@ -10,6 +10,14 @@ KHTODO::Action::Git;
 Version 0.01
 
 =cut
+#TODO
+=pod
+
+    design then write "kbtodo git pull --cli-options"
+    design then write "kbtodo git push --cli-options"
+
+=cut 
+
 
 use KHTODO::Action;
 use Moose;
@@ -44,15 +52,17 @@ sub run {
     die "not yet implemented\n";
 
 
-};
+}
 
-sub get_secondary_actions {
-
+sub parse_argv { 
+    my ($self) = @_;
+    # this "shifts" more stuff off ARGV before cli-option parsing by the base class.
+    print STDERR "... parse_argv ".__PACKAGE__."... \n" if $main::DEBUG; 
 
 }
 
-
 sub BUILD {
+    my ($self) = @_;
     
 
 }

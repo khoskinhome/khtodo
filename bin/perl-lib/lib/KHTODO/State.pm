@@ -74,25 +74,36 @@ my $attr_config = {
         has_end => 0,
         type    => 'Bool', 
         default => 0,
+        cli     => {
+            input=>'Bool',
+        },
     },
     isInformation => {
         words   => [ qw/ info information / ],
         has_end => 0,
         type    => 'Bool', 
         default => 0,
+#        cli     => 'None', ## no cli options for info at present.
     },
-
     start_date => {
         words   => [ qw/ start start-by sby start-date / ],
         has_end => 0,
         type    => 'Datetime',
         default => '',
+        cli     => {
+            input=>'Str',
+            format=>'iso8601-before-n-after',
+        },
     },
     end_date => {
         words   => [ qw/ end end-by eby end-date / ],
         has_end => 0,
         type    => 'Datetime',
         default => '',
+        cli     => {
+            input=>'Str',
+            format=>'iso8601-before-n-after',
+        },
     },
     done_date => {
         words   => [ qw/ done / ],
@@ -101,6 +112,10 @@ my $attr_config = {
         default => '',
         also_set_bool => 'done',
         also_set_bool_default_value => 0, 
+        cli     => {
+            input=>'Str',
+            format=>'iso8601-before-n-after-n-bool',
+        },
     },
     waiting_date => {
         words   => [ qw/ waiting wait / ],
@@ -109,6 +124,10 @@ my $attr_config = {
         default => '',
         also_set_bool => 'waiting', 
         also_set_bool_default_value => 0, 
+        cli     => {
+            input=>'Str',
+            format=>'iso8601-before-n-after-n-bool',
+        },
     },
     complexity => {
         words   => [ qw/ ([1-5])c / ],
@@ -118,6 +137,10 @@ my $attr_config = {
         also_set_bool => 'complexity_set', 
         also_set_bool_default_value => 0, 
         dont_add_brackets_to_regex => 1,
+        cli     => {
+            input=>'Int',
+            format=>'higher-n-lower',
+        },
     },
     priority => {
         words   => [ qw/ ([1-5])p / ],
@@ -127,6 +150,10 @@ my $attr_config = {
         also_set_bool => 'priority_set', 
         also_set_bool_default_value => 0, 
         dont_add_brackets_to_regex => 1,
+        cli     => {
+            input=>'Int',
+            format=>'higher-n-lower',
+        },
     },
     persons  => { 
         words   => [ qw/ & p per pers person peop people / ],
@@ -139,30 +166,50 @@ my $attr_config = {
         has_end => 1,
         type    => 'HashRef',
         default => 'empty-hashref', # have to delegate to code to make a new empty one.
+        cli     => {
+            input=>'Str',
+            format=>'colon-separated-list',
+        },
     },
     project_dependencies => {
         words => [ qw/ projdep pjdp pjd dep deps depends dependencies / ],
         has_end => 1,
         type    => 'HashRef',
         default => 'empty-hashref', # have to delegate to code to make a new empty one.
+        cli     => {
+            input=>'Str',
+            format=>'colon-separated-list',
+        },
     },
     names => {
         words => [ qw/ n nm name noun nms names nouns/ ],
         has_end => 1,
         type    => 'HashRef',
         default => 'empty-hashref', # have to delegate to code to make a new empty one.
+        cli     => {
+            input=>'Str',
+            format=>'colon-separated-list',
+        },
     },
     places => {
         words => [ qw/ plc place places loc location locs locations / ],
         has_end => 1,
         type    => 'HashRef',
         default => 'empty-hashref', # have to delegate to code to make a new empty one.
+        cli     => {
+            input=>'Str',
+            format=>'colon-separated-list',
+        },
     },
     contexts => {
         words => [ qw/ @ cont context contexts / ],
         has_end => 1,
         type    => 'HashRef',
         default => 'empty-hashref', # have to delegate to code to make a new empty one.
+        cli     => {
+            input=>'Str',
+            format=>'colon-separated-list',
+        },
     },
 };
 

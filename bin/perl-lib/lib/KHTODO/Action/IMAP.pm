@@ -1,6 +1,6 @@
 package KHTODO::Action::IMAP;
 use strict;
-
+use Data::Dumper;
 =head1 NAME
 
 KHTODO::Action::IMAP;
@@ -11,11 +11,22 @@ Version 0.01
 
 =cut
 
+#TODO
+=pod
+
+    design then write "kbtodo imap pull --cli-options"
+    design then write "kbtodo imap push --cli-options"
+
+=cut 
+
 use KHTODO::Action;
 use Moose;
 
 extends 'KHTODO::Action';
 
+has push_or_pull => ( is=>'rw', isa=>'Str' );
+
+#has secondary_action => 
 
 __PACKAGE__->meta->make_immutable;
 
@@ -44,7 +55,27 @@ sub run {
     die "not yet implemented\n";
 
 
-};
+}
+
+sub parse_argv { 
+    my ($self) = @_;
+    # this "shifts" more stuff off ARGV before cli-option parsing by the base class.
+    print STDERR "... parse_argv ".__PACKAGE__."... \n" if $main::DEBUG; 
+
+    if ( ! @main::ARGV ) {
+        die "you need to supply 'khtodo imap' with either push or pull command\n";
+    }
+
+    my $pushOrPull = shift @main::ARGV;
+
+    if ( $pushOrPull ne 'push' 
+        && $pushOrPull ne 'pull'
+    ){
+        die "you need to supply 'khtodo imap' with either push or pull command\n";
+    }
+
+}
+
 
 sub get_secondary_actions {
 

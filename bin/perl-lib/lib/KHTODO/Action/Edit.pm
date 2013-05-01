@@ -11,6 +11,14 @@ Version 0.01
 
 =cut
 
+#TODO
+=pod
+
+    design then write "kbtodo edit --cli-options"
+
+=cut 
+
+
 use KHTODO::Action;
 use Moose;
 

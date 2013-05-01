@@ -11,6 +11,14 @@ Version 0.01
 
 =cut
 
+#TODO
+=pod
+
+    design then write "kbtodo vim" . like kbtodo edit but runs vim
+
+=cut 
+
+
 use KHTODO::Action;
 use Moose;
 
