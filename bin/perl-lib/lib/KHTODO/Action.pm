@@ -1,14 +1,22 @@
 package KHTODO::Action;
 
 use Data::Dumper;
-use Getopt::Long;
+use Getopt::Long qw/GetOptionsFromArray/;
 
+########### Parsing >>> ###########
+use KHTODO::Item;
+use KHTODO::State;
+use KHTODO::ParseFile;
+###################################
 
 use Moose;
 
 # banned_cli_opts is set by the subclass in the sub-classes parse_argv() so the base-class::parse_cli_options() knows what to ban.
 has banned_cli_opts =>(is =>'rw', isa=>'HashRef' );
 
+has global_state =>(is=>'rw', isa=>'KHTODO::State');
+
+has argv => (is=>'rw', isa=>'ArrayRef' );
 
 # TODO . Do cli opts need breaking out into a completely separate module ? Probably yes.
 
@@ -17,7 +25,9 @@ has banned_cli_opts =>(is =>'rw', isa=>'HashRef' );
 =pod 
 
 process is :-
-    1) initiate in base class, this delegates to sub class to 
+:w
+
+
         parse_argv() to see if 
             1a) anything more needs pulling off ARGV 
             1b) if any cli-options are barred for Action.
@@ -33,7 +43,7 @@ process is :-
 my $cli_opts = {
 
 
-    priority => 
+#    priority => 
 
 
 
@@ -70,7 +80,12 @@ my $cli_opts = {
 
 
 sub initiate {
-    my ($self) = @_;
+    my ($self, $argv_ra) = @_;
+
+    die "need argv supplied to initiate()!\n"
+        if ref ($argv_ra) ne 'ARRAY' ;
+
+    $self->argv([@{$argv_ra}]);
 
     print "... initiate ... \n" if $main::DEBUG;
 
@@ -90,28 +105,48 @@ sub parse_cli_options {
 
     print "... parse_cli_options ... \n" if $main::DEBUG;
 
-    print Dumper (\@main::ARGV);
+    $self->_build_getopts();
 
-#=pod
+=pod
 
     my $file;
     my $length = 24;
     my $verbose;
 
-    GetOptions ("length=i" => \$length,    # numeric
-                "file=s"   => \$file,      # string
-                "verbose"  => \$verbose)   # flag
+    GetOptionsFromArray ( $self->argv, 
+        "length=i" => \$length,    # numeric
+        "file=s"   => \$file,      # string
+        "verbose"  => \$verbose)   # flag
     or die("Error in command line arguments\n");
-#=cut
 
     print "file = $file \n" if $file;
     
+=cut
+
     print "finished parsing cli opts \n";
 
 
 }
 
 
+sub _build_getopts {
+
+    my ($self) = @_;
+    
+    for my $attr ( $self->global_state->getAttributeNames() ){
+        print "...attr = $attr \n";
+
+
+    }
+
+}
+
+
+sub BUILD {
+    my ($self) = @_;
+
+    $self->global_state(KHTODO::State->new());
+}
 
 
 1;

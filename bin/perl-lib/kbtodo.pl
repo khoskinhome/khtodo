@@ -4,6 +4,8 @@
 
 use strict;
 
+
+
 our $DEBUG = 1;
 
 ########### Parsing >>> ###########
@@ -38,10 +40,10 @@ my $actions = {
     rebase       => "KHTODO::Action::Rebase",
     update       => "KHTODO::Action::Update",
     vim          => "KHTODO::Action::Vim",
-    what         => "KHTODO::Action::What",
+    what         => "KHTODO::Action::What"
 };
 
-my $primary_action = shift @ARGV || '';
+my $primary_action = $ARGV[0] || '';
 
 die "no actions ($primary_action) !\n" if  ! $primary_action;
 
@@ -54,6 +56,6 @@ my %do = (do=>"${lkup}::new" );
 do { 
     no strict 'refs';
     my $action = $do{do}($lkup);
-    $action->initiate();
+    $action->initiate(\@ARGV);
 };
 

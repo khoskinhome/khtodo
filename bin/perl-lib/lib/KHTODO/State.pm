@@ -250,6 +250,17 @@ sub getAttributeNamesByType {
     return @ret;
 }
 
+=item getAttributeNames
+
+=cut 
+
+sub getAttributeNames {
+    my ($self, $type) = @_;
+
+    return keys %{$attr_config};
+}
+
+
 =item getAttributeRegexStart
 
 =cut
