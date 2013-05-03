@@ -496,7 +496,7 @@ sub test_noun_hashrefs_from_config : Test(no_plan) {
 
     for my $attrname( $tdi->getAttributeNamesByType("HashRef")){
         for my $attr_variant ( @{$tdi->getAttributeWords($attrname)} ) {
-            diag("testing HashRef noun '$attrname' against its variant '$attr_variant'\n");
+            note("testing HashRef noun '$attrname' against its variant '$attr_variant'\n");
             $self->__test_delete_noun_with_endtags(
                 $attrname,
                 $attr_variant,
@@ -514,7 +514,7 @@ sub __test_delete_noun_with_endtags {
     #############################################################################
     # first line to parse :-
     my $line =" ;$attr_variant;karl:steve:roger:mike  ";
-    diag( "process line '$line'\n" );
+    note( "process line '$line'\n" );
     $tdi->line($line);
 
     is_deeply(
@@ -535,7 +535,7 @@ sub __test_delete_noun_with_endtags {
     my $newtdi = KHTODO::Item->new( global_state=>$self->{gs} );
     #shove a new line into to parse 
     $line = " nothing special in this line ";
-    diag( "process line '$line'\n" );
+    note( "process line '$line'\n" );
     $newtdi->line($line);
 
     # all the global and local tags should be set as above :-
@@ -558,7 +558,7 @@ sub __test_delete_noun_with_endtags {
     my $ntdi = KHTODO::Item->new( global_state=>$self->{gs} );
     #shove a new line into to parse 
     $line = " nothing ;$attr_variant-end;roger:mike special ${attr_variant};local-line-man in this line ";
-    diag( "process line '$line'\n" );
+    note( "process line '$line'\n" );
     $ntdi->line($line);
 
     # all the global and local tags should be set as above :-
@@ -580,7 +580,7 @@ sub __test_delete_noun_with_endtags {
     # test the -- syntax on the XXX-end tag, and also have a linelocal tag to keep it on its toes !
     my $ntdi5 = KHTODO::Item->new( global_state=>$self->{gs} );
     $line = " nothing ;${attr_variant}-end;-- ${attr_variant};local-line-man in this line ";
-    diag( "process line '$line'\n" );
+    note( "process line '$line'\n" );
     $ntdi5->line($line) ;
 
     is_deeply( $self->{gs}->getAttribute($attribute), { }, "testing $attribute extracted for the global state after all the globals had been removed with the -- (minus minus) syntax");
@@ -594,7 +594,7 @@ sub __test_delete_noun_with_endtags {
     my $ntdi6 = KHTODO::Item->new( global_state=>$self->{gs} );
     $line = " nothing ;${attr_variant};blah:de:blahman ${attr_variant};local-line-man6 in this line ";
     $ntdi6->line( $line ) ;
-    diag( "process line '$line'\n" );
+    note( "process line '$line'\n" );
 
     is_deeply( $ntdi6->getAttribute($attribute), { 'local-line-man6' => 1, 'blah'=>1, 'de'=>1,'blahman'=>1 },
         "testing $attribute extracted linelocal after adding 3 globals and 1 linelocal"
@@ -661,7 +661,7 @@ sub test_all_nouns_in_one_line : Test(no_plan) {
         }
     }
 
-    ## diag ( $line );
+    ## note ( $line );
     $tdi->line($line);
     for my $attrname( $tdi->getAttributeNamesByType("HashRef")){
         is_deeply( $tdi->getAttribute($attrname), $expected->{$attrname}{local},
@@ -719,23 +719,23 @@ sub test_datetime_linelocal_tags : Test(no_plan) {
     $tdi->line(" done; " ) ;
     is ( $stateObj->done()       , 1 , "done was set to 1 correctly" );
     is ( $stateObj->done_date()  , "" , "done_date was found correctly" );
-    diag("parse_error = ".$tdi->parse_error);
+    note("parse_error = ".$tdi->parse_error);
 
     $tdi->line(" done;bad-date " ) ;
     is ( $stateObj->done()       , 1 , "done was set to 1 correctly" );
     is ( $stateObj->done_date()  , "" , "done_date was found correctly" );
-    diag("parse_error = ".$tdi->parse_error);
+    note("parse_error = ".$tdi->parse_error);
 
 
     $tdi->line(" waiting; " ) ;
     is ( $stateObj->waiting()       , 1 , "waiting was set to 1 correctly" );
     is ( $stateObj->waiting_date()  , "" , "waiting_date was found correctly" );
-    diag("parse_error = ".$tdi->parse_error);
+    note("parse_error = ".$tdi->parse_error);
 
     $tdi->line(" waiting;bad-date " ) ;
     is ( $stateObj->waiting()       , 1 , "waiting was set to 1 correctly" );
     is ( $stateObj->waiting_date()  , "" , "waiting_date was found correctly" );
-    diag("parse_error = ".$tdi->parse_error);
+    note("parse_error = ".$tdi->parse_error);
 }
 
 {
