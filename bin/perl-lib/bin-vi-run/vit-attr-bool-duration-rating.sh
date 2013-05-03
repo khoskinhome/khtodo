@@ -1,14 +1,14 @@
 #!/bin/bash
 
 vi -p \
-./vit.sh \
-t/TestClass/KHTODOTest/ParseFile.pm \
-t/TestClass/KHTODOTest/Item.pm \
-t/TestClass/KHTODOTest/Action.pm \
-t/TestClass/KHTODOTest/Action/Vim.pm \
-t/TestClass/KHTODOTest/Action/What.pm \
-t/KHTODOTestClass.t
-
-
-
-
+../t/TestClass/KHTODOTest/Attribute.pm \
+../t/TestClass/KHTODOTest/Attribute/Bool.pm \
+../t/TestClass/KHTODOTest/Attribute/Bool/Information.pm \
+../t/TestClass/KHTODOTest/Attribute/Bool/Meeting.pm \
+../t/TestClass/KHTODOTest/Attribute/Duration.pm \
+../t/TestClass/KHTODOTest/Attribute/Duration/Actual.pm \
+../t/TestClass/KHTODOTest/Attribute/Duration/Estimate.pm \
+../t/TestClass/KHTODOTest/Attribute/Rating.pm \
+../t/TestClass/KHTODOTest/Attribute/Rating/Complexity.pm \
+../t/TestClass/KHTODOTest/Attribute/Rating/Priority.pm \
+../t/KHTODOTestClass.t

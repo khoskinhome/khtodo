@@ -1,14 +1,12 @@
 #!/bin/bash
 
 vi -p \
-./vit.sh \
-t/TestClass/KHTODOTest/ParseFile.pm \
-t/TestClass/KHTODOTest/Item.pm \
-t/TestClass/KHTODOTest/Action.pm \
-t/TestClass/KHTODOTest/Action/Vim.pm \
-t/TestClass/KHTODOTest/Action/What.pm \
-t/KHTODOTestClass.t
-
-
-
+../t/TestClass/KHTODOTest/Attribute.pm \
+../t/TestClass/KHTODOTest/Attribute/DateTime.pm \
+../t/TestClass/KHTODOTest/Attribute/DateTime/EndDate.pm \
+../t/TestClass/KHTODOTest/Attribute/DateTime/StartDate.pm \
+../t/TestClass/KHTODOTest/Attribute/DateTimeBool.pm \
+../t/TestClass/KHTODOTest/Attribute/DateTimeBool/Done.pm \
+../t/TestClass/KHTODOTest/Attribute/DateTimeBool/Waiting.pm \
+../t/KHTODOTestClass.t
 
