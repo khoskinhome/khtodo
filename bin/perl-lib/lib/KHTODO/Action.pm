@@ -9,7 +9,7 @@ use KHTODO::State;
 use KHTODO::ParseFile;
 ###################################
 
-use Moose;
+use Mouse;
 
 # banned_cli_opts is set by the subclass in the sub-classes parse_argv() so the base-class::parse_cli_options() knows what to ban.
 has banned_cli_opts =>(is =>'rw', isa=>'HashRef' );

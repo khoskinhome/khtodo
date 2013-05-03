@@ -11,7 +11,7 @@ Version 0.01
 
 =cut
 
-use Moose;
+use Mouse;
 
 extends 'KHTODO::Action';
 

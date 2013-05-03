@@ -10,7 +10,7 @@ KHTODO::Action::Add;
 Version 0.01
 
 =cut
-use Moose;
+use Mouse;
 
 use KHTODO::Action;
 

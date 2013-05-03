@@ -2,8 +2,8 @@ package KHTODO::Item;
 use strict;
 use Data::Dumper; ## TODO get rid of this when done debugging.
 
-use Moose;
-use Moose::Util::TypeConstraints;
+use Mouse;
+use Mouse::Util::TypeConstraints;
 
 use KHTODO::State;
 use KHTODO::Config;

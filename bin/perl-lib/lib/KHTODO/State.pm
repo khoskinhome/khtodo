@@ -3,8 +3,8 @@ use strict;
 
 use KHTODO::Config;
 
-use Moose;
-use Moose::Util::TypeConstraints;
+use Mouse;
+use Mouse::Util::TypeConstraints;
 
 use Data::Dumper; # TODO get rid of this when done with debugging.
 use DateTime;
